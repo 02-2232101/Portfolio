@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chifumi Tabata | Portfolio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@800&family=Roboto+Mono:wght@400;500;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. 定数・共通設定 --- */
+        :root {
+            --bg-white: #ffffff;
+            --electric-blue: #0055ff;
+            --line-color: rgba(0, 85, 255, 0.1);
+            --text-dark: #121212;
+            --grid-size: 60px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body, html {
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+            font-family: 'Urbanist', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            position: relative;
+            z-index: 0;
+        }
+
+        /* --- 2. 共通背景デザイン --- */
+        .background-grid {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--line-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--line-color) 1px, transparent 1px);
+            background-size: var(--grid-size) var(--grid-size);
+            z-index: -2;
+            pointer-events: none; 
+        }
+
+        .vertical-line {
+            position: fixed; width: 1px; height: 100%; background: var(--line-color);
+            left: 15%; 
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- 固定ナビゲーションメニュー（右寄せ） --- */
+        .global-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(5px); 
+            border-bottom: 1px solid var(--line-color);
+            z-index: 1000; 
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+            margin-left: auto; 
+            padding-right: 8%;  
+        }
+
+        .nav-links a {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--electric-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--electric-blue); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* --- 3. 表紙セクション (Hero) --- */
+        .hero {
+            position: relative; height: 100vh; display: flex; align-items: center; justify-content: center;
+            padding-left: 15%; background-color: transparent;
+            padding-top: 0; 
+        }
+
+        .hero-title {
+            font-size: clamp(4rem, 12vw, 8rem); font-weight: 800; line-height: 0.85;
+            letter-spacing: -0.04em; text-transform: uppercase;
+        }
+
+        .hero-title span { color: var(--electric-blue); }
+
+        .bg-script {
+            position: absolute; font-family: 'Caveat', cursive; font-size: 15vw;
+            color: rgba(0, 85, 255, 0.2); right: 7%; bottom: 8%;
+            pointer-events: none; user-select: none;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- 4. ロールバナー --- */
+        .marquee {
+            width: 100%; overflow: hidden; background: var(--electric-blue); color: white;
+            padding: 10px 0; white-space: nowrap; position: relative;
+            z-index: 10;
+        }
+
+        .marquee-inner { 
+            display: inline-block; 
+            padding-left: 100%;
+            animation: marquee 35s linear infinite; 
+        }
+        .marquee-inner span { font-family: 'Roboto Mono', monospace; font-weight: 700; font-size: 0.8rem; margin-right: 50px; text-transform: uppercase; letter-spacing: 5px; }
+        
+        @keyframes marquee { 
+            0% { transform: translate3d(0, 0, 0); } 
+            100% { transform: translate3d(-100%, 0, 0); } 
+        }
+
+        /* --- 5. Works セクション --- */
+        .works-section-wrapper { 
+            padding-top: 80px; 
+            border-top: 1px solid var(--line-color); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            scroll-margin-top: 60px; 
+            position: relative;
+            z-index: 1;
+        }
+        
+        .works-header { 
+            width: 100%; 
+            padding-left: clamp(40px, 10vw, calc((100vw - 1000px) / 2 + 50px)); 
+            margin: 0 0 60px 0; 
+            text-align: left; 
+        }
+        .works-header h2 { font-family: 'Roboto Mono', monospace; font-size: 2.5rem; font-weight: 700; color: var(--electric-blue); display: inline-block; position: relative; padding-bottom: 10px; letter-spacing: 10px; }
+        .works-header h2::after { content: ''; position: absolute; bottom: 0; left: 0; width: 180%; height: 2px; background-color: var(--electric-blue); }
+
+        .section-works { 
+            width: 100%; 
+            padding: 40px 0; 
+            display: flex; 
+            justify-content: center; 
+        }
+
+        .work-container {
+            display: grid; 
+            grid-template-columns: 1fr 1.2fr; 
+            gap: clamp(40px, 5vw, 100px); 
+            align-items: center; 
+            width: 90%; 
+            max-width: 1000px;            
+        }
+
+        .work-title { 
+            font-size: clamp(2.0rem, 2.8vw, 2.6rem); 
+            font-weight: 800; 
+            line-height: 1.1; 
+            margin-bottom: 12px; 
+            text-transform: uppercase; 
+        }
+        .tech-tag { display: inline-block; padding: 2px 10px; border: 1px solid var(--electric-blue); color: var(--electric-blue); font-size: 0.7rem; margin-bottom: 15px; font-family: 'Roboto Mono', monospace; }
+
+        .work-description { 
+            font-family: 'Roboto Mono', monospace; 
+            font-size: clamp(0.85rem, 1.1vw, 1.0rem);      
+            font-weight: 500;        
+            line-height: 1.8; 
+            color: #222;             
+        }
+
+        /* --- 6. 画像スタック --- */
+        .work-visual {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card-stack {
+            position: relative;
+            width: 100%;       
+            max-width: 420px;  
+            aspect-ratio: 16 / 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto; 
+            overflow: visible;
+            z-index: 1;
+        }
+
+        .card-main, .card-sub { position: absolute; width: 90%; border: 1px solid var(--line-color); box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1); background: white; }
+        .card-main { z-index: 2; }
+        .card-sub { z-index: 1; opacity: 0; }
+        
+        .card-stack:hover .card-main { transform: translate(-15px, -10px) rotate(-2deg); }
+        .card-stack:hover .card-sub { opacity: 1; transform: translate(25px, 10px) rotate(4deg); z-index: 3; }
+
+        .card-stack.single-image:hover .card-main {
+            transform: none; 
+        }
+
+        .more-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 10; 
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            background: transparent;
+            overflow: visible;
+        }
+        .card-stack:hover .more-overlay { opacity: 1; }
+
+        .more-btn {
+            position: relative;
+            background: var(--electric-blue);
+            color: white;
+            text-decoration: none;
+            padding: 12px 30px;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: bold;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            box-shadow: 0 8px 15px rgba(0, 85, 255, 0.2);
+            overflow: hidden;
+            border: none;
+            display: inline-block;
+        }
+
+        .more-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #0033cc;
+            z-index: -1; 
+            transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .more-btn:hover::before { left: 0; }
+
+        /* スマホ専用MOREボタン用ラッパー */
+        .mobile-more-wrapper {
+            display: none;
+        }
+
+        /* --- 7. ABOUT & CONTACT セクション --- */
+        .about-section-wrapper {
+            padding: 100px 0 140px 0;
+            border-top: 1px solid var(--line-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            width: 100%;
+            position: relative;
+            scroll-margin-top: 60px; 
+            z-index: 1;
+        }
+
+        .about-grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+            width: 90%;
+            max-width: 1000px; 
+            margin: 0 auto;
+            padding-left: 0; 
+        }
+
+        .about-profile {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .profile-text-content {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.95rem;      
+            font-weight: 500;        
+            line-height: 1.8;
+            color: #222;
+            text-align: justify;
+        }
+        .profile-name-en { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; line-height: 1.1; margin-bottom: 5px; }
+        .profile-name-ja { font-family: 'Roboto Mono', monospace; font-size: 1rem; color: var(--electric-blue); font-weight: bold; margin-bottom: 15px; letter-spacing: 2px; }
+        .profile-univ { font-family: 'Roboto Mono', monospace; font-size: 0.85rem; font-weight: bold; color: #333; margin-bottom: 30px; }
+        
+        .profile-text p { margin-bottom: 18px; }
+
+        .profile-image-stack {
+            position: relative;
+            width: 100%;
+            max-width: 250px;
+            aspect-ratio: 1 / 1;
+            margin: 0 auto 0 0; 
+            z-index: 1;
+        }
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 1px solid var(--line-color);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            background: var(--line-color);
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .skill-category { display: flex; flex-direction: column; gap: 15px; }
+        .skill-category-title { font-family: 'Roboto Mono', monospace; font-size: 1rem; font-weight: 700; color: var(--electric-blue); letter-spacing: 3px; border-bottom: 1px solid var(--electric-blue); padding-bottom: 6px; margin-bottom: 5px; text-transform: uppercase; }
+        
+        .skill-list { list-style: none; font-family: 'Roboto Mono', monospace; font-size: 0.8rem; line-height: 1.7; color: #555; }
+        .skill-list li { margin-bottom: 12px; position: relative; padding-left: 15px; }
+        .skill-list li::before { content: '>'; position: absolute; left: 0; color: var(--electric-blue); font-weight: bold; }
+        .skill-list li strong { color: var(--text-dark); display: block; font-size: 0.9rem; font-weight: 700; }
+        .skill-list li span { color: #555; font-size: 0.8rem; font-weight: 500; display: block; margin-top: 1px; }
+
+        .contact-mail-link {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--electric-blue);
+            font-weight: bold;
+            text-decoration: none;
+            letter-spacing: 1px;
+            display: inline-flex;  
+            align-items: center;  
+            gap: 12px;
+            margin-top: 10px;
+            border-bottom: 1px dashed var(--electric-blue);
+            padding-bottom: 4px;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .contact-mail-link::before {
+            content: '';
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            background-color: currentColor; 
+            clip-path: polygon(0% 0%, 100% 50%, 0% 100%, 0% 60%, 75% 50%, 0% 40%);
+        }
+
+        .contact-mail-link:hover {
+            color: #0033cc;
+            border-color: #0033cc;
+        }
+
+        .data-label { position: absolute; font-family: 'Roboto Mono', monospace; font-size: 9px; color: var(--electric-blue); letter-spacing: 2px; text-transform: uppercase; z-index: 1; }
+        .cross-mark { position: absolute; color: var(--electric-blue); font-size: 14px; opacity: 0.4; z-index: 0; }
+
+        /* ==========================================================================
+           8. PC用レイアウト設定 (画面幅769px以上)
+           ========================================================================== */
+        @media screen and (min-width: 769px) {
+            .about-profile {
+                grid-template-columns: 1fr 1.5fr;
+                gap: 50px;
+                align-items: center;
+            }
+            .profile-image-stack { grid-column: 1; grid-row: 1; }
+            .profile-text-content { grid-column: 2; grid-row: 1; }
+            
+            .skills-container {
+                grid-template-columns: 1fr 1.2fr;
+                gap: 60px;
+            }
+            .skill-category.category-tech { grid-column: 1; grid-row: 1; }
+            .skill-category.category-creative { grid-column: 2; grid-row: 1; }
+        }
+
+        /* ==========================================================================
+           9. スマートフォン用レイアウト設定 (画面幅768px以下)
+           ========================================================================== */
+        @media screen and (max-width: 768px) {
+            .vertical-line { display: none; }
+            
+            .global-nav { height: 50px; }
+            .nav-links { gap: 15px; padding-right: 4%; }
+            .nav-links a { font-size: 0.7rem; letter-spacing: 1px; }
+
+            .hero { padding-left: 0; text-align: center; padding-top: 50px; }
+            .hero-title { font-size: 3.5rem; }
+            .bg-script { font-size: 22vw; bottom: 5%; right: 5%; }
+
+            /* スマホ版のみ流れるバナーの動きを完全停止し、綺麗に真ん中配置 */
+            .marquee-inner { 
+                animation: none; 
+                padding-left: 0;
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
+            .marquee-inner span:not(:first-child) {
+                display: none;
+            }
+            .marquee-inner span {
+                margin-right: 0;
+                text-align: center;
+            }
+
+            .works-section-wrapper { scroll-margin-top: 50px; }
+            .works-header { width: 90%; padding-left: 5%; margin-bottom: 40px; }
+            .works-header h2 { font-size: 1.8rem; }
+            
+            /* スマホ時のグリッド配置を中央寄せに調整 */
+            .work-container { 
+                grid-template-columns: 1fr; 
+                gap: 35px; 
+                width: 90%;           
+                margin: 0 auto;       
+                justify-items: center; 
+            }
+            
+            .section-works { padding: 30px 0; }
+            
+            /* タイトル・各種ラベルの「左寄せ」を完璧にキープ */
+            .work-info { 
+                text-align: left;     
+                width: 100%;
+                max-width: 420px;     
+            }
+            
+            .work-title { font-size: 1.8rem; }
+            
+            /* 画像スタックを表示・中央化 */
+            .work-visual {
+                display: flex !important; 
+                width: 100%;
+                max-width: 420px;
+                margin: 0 auto;
+            }
+
+            .card-stack { 
+                margin: 0 auto 20px auto;     
+                width: 100%; 
+                max-width: 420px;     
+            }
+
+            /* スマホでは画像に重ねるMOREボタンを隠します */
+            .more-overlay {
+                display: none !important;
+            }
+
+            /* スマホ専用の「画像の下のMOREボタン」を表示 */
+            .mobile-more-wrapper {
+                display: block;
+                width: 100%;
+                text-align: center; 
+                margin-top: 10px;
+            }
+            .mobile-more-wrapper .more-btn {
+                width: auto;
+                padding: 12px 45px; 
+            }
+
+            .about-section-wrapper { padding: 80px 0 100px 0; scroll-margin-top: 50px; }
+            .about-grid-container { gap: 50px; width: 90%; }
+            
+            .about-profile { grid-template-columns: 1fr; gap: 30px; text-align: left; }
+            .profile-image-stack { max-width: 180px; margin: 0 auto; order: 1; }
+            .profile-text-content { order: 2; }
+            .profile-name-en { font-size: 1.8rem; }
+            .profile-univ { margin-bottom: 20px; }
+
+            .skills-container { grid-template-columns: 1fr; gap: 40px; }
+            .skill-category.category-tech { order: 1; }
+            .skill-category.category-creative { order: 2; }
+            
+            .contact-mail-link { font-size: 0.95rem; }
+            .data-label { font-size: 8px; top: 60px !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="background-grid"></div>
+    <div class="vertical-line"></div>
+
+    <nav class="global-nav">
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#works">Works</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="bg-script">Portfolio</div>
+        
+        <div class="data-label" style="top: 80px; left: 30px;">[ SUBJECT: CHIFUMI_TABATA ]</div> 
+        <div class="data-label" style="top: 80px; right: 30px;">LOC: 36.0835 N / 140.2111 E</div> 
+        <div class="data-label" style="bottom: 30px; right: 30px;">VER_2026.04.30</div>
+
+        <div class="cross-mark" style="top: 25%; left: 14.6%;">+</div>
+        <div class="cross-mark" style="top: 10%; right: 10%;">+</div>
+
+        <div class="hero-content">
+            <h1 class="hero-title">
+                CHIFUMI<br>
+                <span>TABATA</span>
+            </h1>
+        </div>
+    </section>
+
+    <div class="marquee">
+        <div class="marquee-inner">
+            <span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span><span>Scroll & Explore</span>
+        </div>
+    </div>
+
+    <div class="works-section-wrapper" id="works">
+        <div class="works-header">
+            <h2>WORKS</h2>
+        </div>
+
+        <section class="section-works">
+            <div class="work-container">
+                <div class="work-info">
+                    <span class="data-label" style="position:static; display:block; margin-bottom:8px;">01 // training game</span>
+                    <h2 class="work-title">のらねこ <br><span style="color:var(--electric-blue)">website games</span></h2>
+                    <div class="tech-tag">PHP / CSS / JAVASCRIPT</div>
+                    <div class="work-description">
+                        PHPのセッション管理を用いた猫育成シミュレーション。<br>授業課題で制作。
+                    </div>
+                </div>
+                <div class="work-visual">
+                    <div class="card-stack">
+                        <div class="more-overlay"><a href="noraneko-detail.html" class="more-btn">MORE</a></div>
+                        <img src="noraneko-capture.jpg" alt="のらねこ ゲームキャプチャ" class="card-main">
+                        <img src="noraneko-sub.jpg" alt="のらねこ サブ画像" class="card-sub">
+                    </div>
+                    <div class="mobile-more-wrapper">
+                        <a href="noraneko-detail.html" class="more-btn">MORE</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-works">
+            <div class="work-container">
+                <div class="work-info">
+                    <span class="data-label" style="position:static; display:block; margin-bottom:8px;">02 // FLAG & COOKE</span>
+                    <h2 class="work-title">津軽三味線 <br><span style="color:var(--electric-blue)">DESIGN</span></h2>
+                    <div class="tech-tag">ILLUSTRATOR</div>
+                    <div class="work-description">
+                        舞台で使用するビジュアル設計。<br>演奏活動で感じた「自分たちらしさ」を視覚化することを目標として制作。
+                    </div>
+                </div>
+                <div class="work-visual">
+                    <div class="card-stack">
+                        <div class="more-overlay"><a href="nobori-detail.html" class="more-btn">MORE</a></div>
+                        <img src="nobori-main.jpg" alt="三味線 幟デザイン メイン" class="card-main">
+                        <img src="cookie-design.jpg" alt="三味線 幟デザイン 制作過程" class="card-sub">
+                    </div>
+                    <div class="mobile-more-wrapper">
+                        <a href="nobori-detail.html" class="more-btn">MORE</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-works">
+            <div class="work-container">
+                <div class="work-info">
+                    <span class="data-label" style="position:static; display:block; margin-bottom:8px;">03 // SITE 2026</span>
+                    <h2 class="work-title">PORTFOLIO <br><span style="color:var(--electric-blue)">WEB SITE</span></h2>
+                    <div class="tech-tag">HTML / CSS / WEB DESIGN</div>
+                    <div class="work-description">
+                        授業での学びを生かし、自分のwebポートフォリオを作成しました。
+                    </div>
+                </div>
+                <div class="work-visual">
+                    <div class="card-stack single-image">
+                        <div class="more-overlay"><a href="portfolio-detail.html" class="more-btn">MORE</a></div>
+                        <img src="portfolio-capture.jpg" alt="ポートフォリオサイト キャプチャ" class="card-main">
+                    </div>
+                    <div class="mobile-more-wrapper">
+                        <a href="portfolio-detail.html" class="more-btn">MORE</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="about-section-wrapper" id="about">
+        <div class="works-header">
+            <h2>ABOUT</h2>
+        </div>
+
+        <div class="about-grid-container">
+            <div class="about-profile">
+                <div class="profile-image-stack">
+                    <img src="your-photo.jpg" alt="田畑千芙実 顔写真" class="profile-image">
+                </div>
+                <div class="profile-text-content">
+                    <h3 class="profile-name-en">田畑 千芙実</h3>
+                    <div class="profile-name-ja">TABATA CHIFUMI</div>
+                    <div class="profile-univ">千葉工業大学 情報科学部 情報ネットワーク学科 新井田研究室</div>
+                    
+                    <div class="profile-text">
+                        <p>茨城県かすみがうら市出身。大学では情報科学を専攻しています。幼少期から12年間続けている津軽三味線の演奏活動を通じて「人の心を動かす表現」を追究してきました。</p>
+                        <p>また、有志で制作しているフリーペーパー「土浦と本と珈琲」での取材などを行い、地元の魅力を伝えるメディア制作活動にも取り組んでいます。</p>
+                        <p>小物の作成や絵を描くことなど「ものづくり」が好きで、使用して喜んでもらえることに意義を感じています。</p>
+                        <p>IT面では、視覚的な美しさ（表現）と裏側の仕組み（論理）を掛け合わせ、ユーザーが迷わず心地よく情報に辿り着ける「機能するデザイン」を目指してものづくりを行っています。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skills-container">
+                <div class="skill-category category-tech">
+                    <h4 class="skill-category-title">01 // Tech Languages</h4>
+                    <ul class="skill-list">
+                        <li><strong>HTML / CSS</strong><span>授業・課題での実装 / サイト制作経験あり</span></li>
+                        <li><strong>JavaScript</strong><span>授業・課題での実装 / 動的表現の実装経験あり</span></li>
+                        <li><strong>C言語</strong><span>授業での基礎プログラミング・課題実装経験あり</span></li>
+                    </ul>
+                </div>
+
+                <div class="skill-category category-creative">
+                    <h4 class="skill-category-title">02 // Creative Tools</h4>
+                    <ul class="skill-list">
+                        <li><strong>Illustrator / Photoshop</strong><span>基本的な操作可能。<br>メディア制作のレイアウト・ビジュアルデザインに使用可能</span></li>
+                        <li><strong>Procreate</strong><span>イラストレーション・グラフィックの描画に使用可能</span></li>
+                        <li><strong>Word / Excel / PowerPoint</strong><span>大学資料・課題作成における基本的なドキュメント操作が可能</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-section-wrapper" id="contact" style="padding-bottom: 160px;">
+        <div class="works-header">
+            <h2>CONTACT</h2>
+        </div>
+        <div class="about-grid-container">
+            <div style="font-family: 'Roboto Mono', monospace; font-size: 0.95rem; font-weight: 500; line-height: 1.8; color: #222;">
+                <p>ご意見・お問い合わせや、ポートフォリオに関するご連絡は、下記の大学用メールアドレスまでお願いいたします。</p>
+                <a href="mailto:s2232101vz@chibatech.ac.jp" class="contact-mail-link">s2232101vz@chibatech.ac.jp</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>のらねこ - Project Detail | Chifumi Tabata</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. 定数・共通設定 --- */
+        :root {
+            --bg-white: #ffffff;
+            --electric-blue: #0055ff;
+            --line-color: rgba(0, 85, 255, 0.1);
+            --text-dark: #121212;
+            --grid-size: 60px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body, html {
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+            font-family: 'Urbanist', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- 2. 背景デザイン --- */
+        .background-grid {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--line-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--line-color) 1px, transparent 1px);
+            background-size: var(--grid-size) var(--grid-size);
+            z-index: -2; pointer-events: none; 
+        }
+
+        /* --- 3. ヘッダー --- */
+        .detail-nav {
+            position: fixed; top: 0; left: 0; width: 100%; height: 60px;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px); 
+            border-bottom: 1px solid var(--line-color); z-index: 1000; 
+            display: flex; align-items: center; padding: 0 5%;
+        }
+
+        .back-btn {
+            font-family: 'Roboto Mono', monospace; font-size: 0.85rem; font-weight: 700;
+            color: var(--text-dark); text-decoration: none; text-transform: uppercase;
+            letter-spacing: 2px; display: inline-flex; align-items: center; gap: 8px;
+            transition: color 0.3s ease;
+        }
+        .back-btn:hover { color: var(--electric-blue); }
+
+        /* --- 4. メインレイアウト --- */
+        .container {
+            width: 90%; max-width: 900px; margin: 120px auto 100px auto;
+        }
+
+        .project-header { margin-bottom: 40px; text-align: left; }
+        .project-tag {
+            display: inline-block; padding: 2px 10px; border: 1px solid var(--electric-blue);
+            color: var(--electric-blue); font-size: 0.7rem; font-family: 'Roboto Mono', monospace;
+            margin-bottom: 15px; letter-spacing: 1px;
+        }
+        .project-title { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; line-height: 1.1; text-transform: uppercase; margin-bottom: 10px; }
+        .project-subtitle { font-family: 'Roboto Mono', monospace; font-size: 1rem; color: var(--electric-blue); font-weight: 700; }
+
+        /* カルーセルスライダーのCSS設定 */
+        .slider-section {
+            width: 100%;
+            margin-bottom: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-visual-wrapper {
+            width: 100%; 
+            aspect-ratio: 16 / 9; 
+            border: 1px solid var(--line-color);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
+            background: #fcfcfc;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .main-visual { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;         
+            visibility: hidden;
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.8s; 
+            z-index: 1;
+        }
+
+        .main-visual.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
+        }
+
+        .slider-dots {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            list-style: none;
+            padding: 0;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0, 85, 255, 0.2); 
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: none;
+            outline: none;
+        }
+
+        .dot:hover {
+            background-color: rgba(0, 85, 255, 0.5); 
+            transform: scale(1.2);
+        }
+
+        .dot.active {
+            background-color: var(--electric-blue);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(0, 85, 255, 0.4);
+        }
+
+        .project-body { display: grid; grid-template-columns: 1fr 2fr; gap: 60px; align-items: flex-start; }
+
+        /* 左カラム：メタデータ */
+        .project-meta { font-family: 'Roboto Mono', monospace; display: flex; flex-direction: column; gap: 25px; }
+        .meta-item h4 { font-size: 0.75rem; color: var(--electric-blue); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+        .meta-item p { font-size: 0.9rem; font-weight: 500; color: var(--text-dark); line-height: 1.5; }
+
+        /* 右カラム：詳細テキスト */
+        .project-description { font-family: 'Roboto Mono', monospace; font-size: 0.95rem; font-weight: 500; line-height: 1.9; color: #222; }
+        .section-block { margin-bottom: 40px; }
+        .section-block h3 {
+            font-family: 'Urbanist', sans-serif; font-size: 1.5rem; font-weight: 800;
+            color: var(--text-dark); margin-bottom: 15px; border-left: 3px solid var(--electric-blue);
+            padding-left: 15px;
+        }
+        .section-block p { margin-bottom: 15px; text-align: justify; }
+
+        @media screen and (max-width: 768px) {
+            .container { margin-top: 90px; }
+            .project-body { grid-template-columns: 1fr; gap: 40px; }
+            .project-title { font-size: 2.2rem; }
+            .project-description { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-grid"></div>
+
+    <nav class="detail-nav">
+        <a href="index.html#works" class="back-btn">< Back to Works</a>
+    </nav>
+
+    <div class="container">
+        <header class="project-header">
+            <div class="project-tag">01 // Web Application</div>
+            <h1 class="project-title">のらねこ</h1>
+            <div class="project-subtitle">Training Simulation Game</div>
+        </header>
+
+        <div class="slider-section">
+            <div class="main-visual-wrapper">
+                <img src="noraneko-capture.jpg" alt="のらねこ ゲームキャプチャ 01" class="main-visual active">
+                <img src="noraneko-sub.jpg" alt="のらねこ ゲームキャプチャ 02" class="main-visual">
+                <img src="noraneko-capture3.jpg" alt="のらねこ ゲームキャプチャ 03" class="main-visual">
+                <img src="noraneko-capture4.jpg" alt="のらねこ ゲームキャプチャ 04" class="main-visual">
+            </div>
+            
+            <div class="slider-dots">
+                <button class="dot active" onclick="currentSlide(0)"></button>
+                <button class="dot" onclick="currentSlide(1)"></button>
+                <button class="dot" onclick="currentSlide(2)"></button>
+                <button class="dot" onclick="currentSlide(3)"></button>
+            </div>
+        </div>
+
+        <div class="project-body">
+            <aside class="project-meta">
+                <div class="meta-item">
+                    <h4>Role</h4>
+                    <p>Planning, Design, Programming</p>
+                </div>
+                <div class="meta-item">
+                    <h4>Duration</h4>
+                    <p>2 Weeks (2025.09)</p>
+                </div>
+                <div class="meta-item">
+                    <h4>Tech Stack</h4>
+                    <p>PHP / HTML / CSS / JavaScript / XAMPP</p>
+                </div>
+                <div class="meta-item">
+                    <h4>Context</h4>
+                    <p>大学の授業内課題・個人制作</p>
+                </div>
+            </aside>
+
+            <main class="project-description">
+                <div class="section-block">
+                    <h3>01 // Overview</h3>
+                    <p>「のらねこ」は、PHPのセッション管理機能をベースに開発した、Webブラウザ上で動作するテキスト型の猫育成シミュレーションゲームです。</p>
+                    <p>プレイヤーの選択肢によって状態がリアルタイムに分岐し、限られたターンの中で猫と接するかを体験する仕組みになっています。</p>
+                </div>
+
+                <div class="section-block">
+                    <h3>02 // Core Technology</h3>
+                    <p>本作のバックエンドは、PHPを用いて実装しています。ページを遷移したり、コマンドを選択してリロードしたりしても、ねこの「満腹度」「親愛度」「経過日数」といったステータスが消えずに保持され続けるよう、サーバー側でのセッション管理を構築しました。</p>
+                    <p>また、プログラムが予期せぬ挙動を起こさないよう、開発環境（XAMPP）を用いて入念なデバッグを繰り返しながら、ロジックの正確性を突き詰めました。</p>
+                </div>
+
+                <div class="section-block">
+                    <h3>03 // Design Concept</h3>
+                    <p>ゲーム画面は、プレイヤーがステータスや状況を一目で把握できるよう、UI/UXデザインにこだわりました。情報ネットワーク学科での学びを活かし、ただプログラムを動かすだけでなく、「ユーザーが迷わずに心地よく操作できる機能美」を意識したレイアウト設計を行っています。</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        let slideTimer;
+        const slides = document.querySelectorAll('.main-visual');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+
+        // 指定したインデックスのスライドを表示する関数
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentIndex = index;
+        }
+
+        // 次のスライドに回す関数
+        function nextSlide() {
+            let nextIndex = (currentIndex + 1) % totalSlides;
+            showSlide(nextIndex);
+        }
+
+        // 4秒のオートプレイタイマーを起動・リセットする関数
+        function startTimer() {
+            clearInterval(slideTimer); // 既存のタイマーをクリア
+            slideTimer = setInterval(nextSlide, 4000); // 4秒（4000ms）ごとに実行
+        }
+
+        // ドットをクリックしたときの関数
+        function currentSlide(index) {
+            showSlide(index);
+            startTimer(); // 手動クリックされたらタイマーを初期化して再カウント
+        }
+
+        // ページを読み込んだときに自動切り替えタイマーをスタート
+        startTimer();
+    </script>
+
+</body>
+</html>
