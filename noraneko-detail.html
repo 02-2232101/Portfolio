@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. 定数・共通設定 --- */
+        /* 定数・共通設定 */
         :root {
             --bg-white: #ffffff;
             --electric-blue: #0055ff;
@@ -29,7 +29,7 @@
             scroll-behavior: smooth;
         }
 
-        /* --- 2. 背景デザイン --- */
+        /* 背景デザイン */
         .background-grid {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
@@ -39,7 +39,7 @@
             z-index: -2; pointer-events: none; 
         }
 
-        /* --- 3. ヘッダー --- */
+        /* ヘッダー  */
         .detail-nav {
             position: fixed; top: 0; left: 0; width: 100%; height: 60px;
             background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px); 
@@ -55,7 +55,7 @@
         }
         .back-btn:hover { color: var(--electric-blue); }
 
-        /* --- 4. メインレイアウト --- */
+        /* メインレイアウト */
         .container {
             width: 90%; max-width: 900px; margin: 120px auto 100px auto;
         }
@@ -140,12 +140,10 @@
 
         .project-body { display: grid; grid-template-columns: 1fr 2fr; gap: 60px; align-items: flex-start; }
 
-        /* 左カラム：メタデータ */
         .project-meta { font-family: 'Roboto Mono', monospace; display: flex; flex-direction: column; gap: 25px; }
         .meta-item h4 { font-size: 0.75rem; color: var(--electric-blue); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
         .meta-item p { font-size: 0.9rem; font-weight: 500; color: var(--text-dark); line-height: 1.5; }
 
-        /* 右カラム：詳細テキスト */
         .project-description { font-family: 'Roboto Mono', monospace; font-size: 0.95rem; font-weight: 500; line-height: 1.9; color: #222; }
         .section-block { margin-bottom: 40px; }
         .section-block h3 {
@@ -218,12 +216,12 @@
                 <div class="section-block">
                     <h3>01 // Overview</h3>
                     <p>「のらねこ」は、PHPのセッション管理機能をベースに開発した、Webブラウザ上で動作するテキスト型の猫育成シミュレーションゲームです。</p>
-                    <p>プレイヤーの選択肢によって状態がリアルタイムに分岐し、限られたターンの中で猫と接するかを体験する仕組みになっています。</p>
+                    <p>プレイヤーの選択肢によって状態が分岐し、ターンの中で猫とどう接するかを体験する仕組みになっています。</p>
                 </div>
 
                 <div class="section-block">
                     <h3>02 // Core Technology</h3>
-                    <p>本作のバックエンドは、PHPを用いて実装しています。ページを遷移したり、コマンドを選択してリロードしたりしても、ねこの「満腹度」「親愛度」「経過日数」といったステータスが消えずに保持され続けるよう、サーバー側でのセッション管理を構築しました。</p>
+                    <p>本作のバックエンドは、PHPを用いて実装しています。ページを遷移したり、コマンドを選択してリロードしたりしても、ねこの「満腹度」「親愛度」「所持金」といったステータスが消えずに保持され続けるよう、サーバー側でのセッション管理を構築しました。</p>
                     <p>また、プログラムが予期せぬ挙動を起こさないよう、開発環境（XAMPP）を用いて入念なデバッグを繰り返しながら、ロジックの正確性を突き詰めました。</p>
                 </div>
 
@@ -242,7 +240,6 @@
         const dots = document.querySelectorAll('.dot');
         const totalSlides = slides.length;
 
-        // 指定したインデックスのスライドを表示する関数
         function showSlide(index) {
             slides.forEach(slide => slide.classList.remove('active'));
             dots.forEach(dot => dot.classList.remove('active'));
@@ -252,25 +249,21 @@
             currentIndex = index;
         }
 
-        // 次のスライドに回す関数
         function nextSlide() {
             let nextIndex = (currentIndex + 1) % totalSlides;
             showSlide(nextIndex);
         }
 
-        // 4秒のオートプレイタイマーを起動・リセットする関数
         function startTimer() {
-            clearInterval(slideTimer); // 既存のタイマーをクリア
-            slideTimer = setInterval(nextSlide, 4000); // 4秒（4000ms）ごとに実行
+            clearInterval(slideTimer);
+            slideTimer = setInterval(nextSlide, 4000);
         }
 
-        // ドットをクリックしたときの関数
         function currentSlide(index) {
             showSlide(index);
-            startTimer(); // 手動クリックされたらタイマーを初期化して再カウント
+            startTimer();
         }
 
-        // ページを読み込んだときに自動切り替えタイマーをスタート
         startTimer();
     </script>
 
