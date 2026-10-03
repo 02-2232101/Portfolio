@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. 定数・共通設定 --- */
+        /* 定数・共通設定 */
         :root {
             --bg-white: #ffffff;
             --electric-blue: #0055ff;
@@ -29,7 +29,7 @@
             scroll-behavior: smooth;
         }
 
-        /* --- 2. 背景デザイン --- */
+        /* 背景デザイン */
         .background-grid {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
@@ -39,7 +39,7 @@
             z-index: -2; pointer-events: none; 
         }
 
-        /* --- 3. ヘッダー --- */
+        /* ヘッダー */
         .detail-nav {
             position: fixed; top: 0; left: 0; width: 100%; height: 60px;
             background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px); 
@@ -55,7 +55,7 @@
         }
         .back-btn:hover { color: var(--electric-blue); }
 
-        /* --- 4. メインレイアウト --- */
+        /* メインレイアウト */
         .container {
             width: 90%; max-width: 900px; margin: 120px auto 100px auto;
         }
@@ -69,7 +69,7 @@
         .project-title { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; line-height: 1.1; text-transform: uppercase; margin-bottom: 10px; }
         .project-subtitle { font-family: 'Roboto Mono', monospace; font-size: 1rem; color: var(--electric-blue); font-weight: 700; }
 
-        /* カルーセルスライダーのCSS設定（3枚対応オートプレイ） */
+        /* カルーセルスライダー */
         .slider-section {
             width: 100%;
             margin-bottom: 60px;
@@ -140,12 +140,10 @@
 
         .project-body { display: grid; grid-template-columns: 1fr 2fr; gap: 60px; align-items: flex-start; }
 
-        /* 左カラム：メタデータ */
         .project-meta { font-family: 'Roboto Mono', monospace; display: flex; flex-direction: column; gap: 25px; }
         .meta-item h4 { font-size: 0.75rem; color: var(--electric-blue); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
         .meta-item p { font-size: 0.9rem; font-weight: 500; color: var(--text-dark); line-height: 1.5; }
 
-        /* 右カラム：詳細テキスト */
         .project-description { font-family: 'Roboto Mono', monospace; font-size: 0.95rem; font-weight: 500; line-height: 1.9; color: #222; }
         .section-block { margin-bottom: 40px; }
         .section-block h3 {
@@ -175,7 +173,7 @@
         <header class="project-header">
             <div class="project-tag">02 // Graphic Design</div>
             <h1 class="project-title">津軽三味線</h1>
-            <div class="project-subtitle">発表会で使用するのぼり、子引き出物のデザイン</div>
+            <div class="project-subtitle">発表会で使用するのぼり、子引き出物のデザインなど</div>
         </header>
 
         <div class="slider-section">
@@ -215,12 +213,12 @@
             <main class="project-description">
                 <div class="section-block">
                     <h3>01 // Overview</h3>
-                    <p>自身が12年間続けている「津軽三味線」の舞台演奏において、ステージの個性を際立たせ、演者と観客の空間的一体感を高めるための「のぼり旗」のビジュアル設計、および発表会に足を運んでくださった方々へ感謝を伝える「子引き出物」のデザインを担当しました。</p>
+                    <p>自身が12年間続けている「津軽三味線」の舞台演奏において、ステージの個性を際立たせ、演者と観客の空間的一体感を高めるための「のぼり旗」のビジュアル設計、および発表会に足を運んでくださった方々へ感謝を伝える「子引き出物」のデザインを主に担当しました。</p>
                 </div>
 
                 <div class="section-block">
                     <h3>02 // Creative Strategy</h3>
-                    <p>のぼり旗の設計にあたり、興行の伝統と圧倒的な存在感を放つ「大相撲ののぼり」の構成レイアウトをリサーチのベースとして参考にしました。演奏活動を共にしてきた同期ならではの「一人ひとりの個性」を言語化し、大胆なタイポグラフィとコントラストの強い配色へと昇華。これまでの伝統的な三味線のイメージを大切にしつつ、現代の舞台照明にも力強く映えるデジタル・ファブリックの親和性を意識したビジュアルを構築しました。</p>
+                    <p>のぼり旗の設計にあたり、興行の伝統と圧倒的な存在感を放つ「大相撲ののぼり」の構成レイアウトをリサーチのベースとして参考にしました。演奏活動を共にしてきた同期ならではの「一人ひとりの個性」を言語化し、大胆なタイポグラフィとコントラストの強い配色へと昇華。これまでの伝統的な三味線のイメージを大切にしつつ、舞台照明にも力強く映える親和性を意識したビジュアルを構築しました。</p>
                 </div>
 
                 <div class="section-block">
@@ -254,12 +252,12 @@
 
         function startTimer() {
             clearInterval(slideTimer);
-            slideTimer = setInterval(nextSlide, 4000); // 4秒（4000ms）
+            slideTimer = setInterval(nextSlide, 4000);
         }
 
         function currentSlide(index) {
             showSlide(index);
-            startTimer(); // クリック時にタイマーカウントをリセット
+            startTimer();
         }
 
         startTimer();
